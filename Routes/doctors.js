@@ -1,0 +1,19 @@
+const express = require("express");
+const router = express.Router();
+const {
+  getAllDoctors,
+  getDoctorsByLocation,
+  getDoctorsBySpecialization,
+  addDoctor,
+  updateDoctor,
+  getDoctorById,
+} = require("../Controllers/doctorController.js");
+
+router.get("/", getAllDoctors);
+router.get("/:id", getDoctorById);
+router.get("/location/:place", getDoctorsByLocation);
+router.get("/specialization/:specialization", getDoctorsBySpecialization);
+router.post("/", addDoctor);
+router.patch("/:id", updateDoctor);
+
+module.exports = router;
