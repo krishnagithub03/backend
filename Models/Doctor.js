@@ -5,11 +5,23 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
+  specialization: {
+    type: String,
+    required: true,
+  },
   exp: {
     type: Number,
     required: true,
   },
-  specialization: {
+  establishmentType: {
+    type: String,
+    required: true,
+  },
+  clinicName: {
     type: String,
     required: true,
   },
@@ -17,9 +29,27 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
+  clinicNumber: {
     type: String,
     required: true,
+  },
+  clinicService: {
+    type: String,
+    required: true,
+  },
+  fees: {
+    type: Number,
+    required: true,
+  },
+  message: {
+    type: String,
+  },
+  sessionTimings: {
+    type: String,
+    required: true,
+  },
+  uploadFile: {
+    type: String,
   },
 });
 

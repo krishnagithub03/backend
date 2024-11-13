@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const doctorModel = require("../Models/Doctor.js");
 
 const getAllDoctors = async (req, res) => {
