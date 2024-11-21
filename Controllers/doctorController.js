@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const doctorModel = require("../Models/Doctor.js");
+const appointmentModel = require("../Models/Appointments.js");
+const patientModel = require("../Models/Patient.js");
 
 const getAllDoctors = async (req, res) => {
   try {
@@ -53,6 +55,28 @@ const addDoctor = async (req, res) => {
   }
 };
 
+const saveAppointment = async (req, res) => {
+  const { data } = req.body;
+  const newAppointment = new appointmentModel(data);
+  try {
+    await newAppointment.save();
+    res.status(201).json(newAppointment);
+  } catch (err) {
+    res.status(409).json({ message: err.message });
+  }
+};
+
+const savePatientDetails = async (req, res) => {
+  const { data } = req.body;
+  const newPatient = new patientModel(data);
+  try {
+    await newPatient.save();
+    res.status(201).json(newPatient);
+  } catch (err) {
+    res.status(409).json({ message: err.message });
+  }
+};
+
 const updateDoctor = async (req, res) => {
   const { id } = req.params;
   const doctor = req.body;
@@ -71,4 +95,6 @@ module.exports = {
   addDoctor,
   updateDoctor,
   getDoctorById,
+  saveAppointment,
+  savePatientDetails,
 };
