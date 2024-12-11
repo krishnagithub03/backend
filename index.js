@@ -42,8 +42,8 @@ mongoose
 const io = new Server({
   cors: {
     origin: [
-      // "http://localhost:3000"
-      // , "http://localhost:3001"
+      // "http://localhost:3000",
+      // "http://localhost:3001",
       "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",

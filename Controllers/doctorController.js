@@ -67,10 +67,11 @@ const saveAppointment = async (req, res) => {
 };
 
 const savePatientDetails = async (req, res) => {
-  const { data } = req.body;
-
+  // const { data } = req.body.data;
+  // console.log(data);
+  const resData = req.body.data;
   try {
-    const newPatient = new patientModel(data);
+    const newPatient = new patientModel(resData);
     await newPatient.save();
     res.status(201).json(newPatient);
   } catch (err) {
