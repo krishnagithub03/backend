@@ -68,12 +68,13 @@ const saveAppointment = async (req, res) => {
 
 const savePatientDetails = async (req, res) => {
   const { data } = req.body;
-  const newPatient = new patientModel(data);
+
   try {
+    const newPatient = new patientModel(data);
     await newPatient.save();
     res.status(201).json(newPatient);
   } catch (err) {
-    res.status(409).json({ message: err.message });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
@@ -88,6 +89,16 @@ const updateDoctor = async (req, res) => {
   res.json(updatedDoctor);
 };
 
+const getDoctorByValue = async (req, res) => {
+  const { email } = req.body;
+  const docExists = await doctorModel.findOne({ email });
+  if (docExists) {
+    res.status(200).json({ exists: true });
+  } else {
+    res.status(403).json({ exists: false });
+  }
+};
+
 module.exports = {
   getAllDoctors,
   getDoctorsByLocation,
@@ -97,4 +108,5 @@ module.exports = {
   getDoctorById,
   saveAppointment,
   savePatientDetails,
+  getDoctorByValue,
 };

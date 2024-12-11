@@ -1,5 +1,3 @@
-// appointments of doctor with doctor id and doctor name specialization patient email,doctor email,appointment date,appointment time
-//write schema
 const mongoose = require("mongoose");
 
 const appointmentShema = new mongoose.Schema({
