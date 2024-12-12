@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const paymentModel = require("../Models/Payment.js");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+require("dotenv").config();
 
 const razorpayOrder = async (req, res) => {
   const instance = new Razorpay({
