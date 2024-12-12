@@ -77,8 +77,19 @@ const razorpayVerify = async (req, res) => {
     console.log(error);
   }
 };
+const reachPaymentTest = async (req, res) => {
+  try {
+    res.json({
+      message: "Payement route is reached",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "unable to get to payments route" });
+    console.log(error);
+  }
+};
 
 module.exports = {
   razorpayOrder,
   razorpayVerify,
+  reachPaymentTest,
 };
