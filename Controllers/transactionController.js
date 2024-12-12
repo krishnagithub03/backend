@@ -3,9 +3,13 @@ const mongoose = require("mongoose");
 const paymentModel = require("../Models/Payment.js");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const razorpayOrder = async (req, res) => {
+  console.log(req.body);
+  console.log(process.env.RAZORPAY_KEY_ID);
+  console.log(process.env.RAZORPAY_KEY_SECRET);
   const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -13,12 +17,12 @@ const razorpayOrder = async (req, res) => {
   if (!req.body.amount || typeof req.body.amount !== "number") {
     return res.status(400).json({ message: "Invalid amount in request" });
   }
-  const options = {
-    amount: req.body.amount * 100,
-    currency: "INR",
-    receipt: "mgood_receipt_teleconsultation",
-  };
   try {
+    const options = {
+      amount: req.body.amount * 100,
+      currency: "INR",
+      receipt: "mgood_receipt_teleconsultation",
+    };
     const order = await instance.orders.create(options);
     res.status(200).json({ data: order });
   } catch (err) {
