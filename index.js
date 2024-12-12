@@ -9,9 +9,6 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./Routes/admin.js");
 const { Server } = require("socket.io");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-
 app.use(
   cors({
     origin: [
@@ -22,8 +19,12 @@ app.use(
       "https://www.mgood.org",
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
+app.options("*", cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Routing
 app.use("/api", doctorRoutes);
