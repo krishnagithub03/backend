@@ -10,6 +10,9 @@ const razorpayOrder = async (req, res) => {
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
   });
+  if (!req.body.amount || typeof req.body.amount !== "number") {
+    return res.status(400).json({ message: "Invalid amount in request" });
+  }
   const options = {
     amount: req.body.amount * 100,
     currency: "INR",
