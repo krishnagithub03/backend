@@ -9,20 +9,20 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./Routes/admin.js");
 const { Server } = require("socket.io");
 
-// app.use(
-//   cors({
-//     origin: [
-//       // "http://localhost:3000",
-//       // "http://localhost:3001",
-//       "https://mgood.vercel.app",
-//       "https://mgood.org",
-//       "https://www.mgood.org",
-//     ],
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://mgood.org",
+      "https://www.mgood.org",
+      "https://admin.mgood.org",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+// app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -46,9 +46,10 @@ const io = new Server({
     origin: [
       // "http://localhost:3000",
       // "http://localhost:3001",
-      "https://mgood.vercel.app",
+      // "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",
+      "https://admin.mgood.org",
     ],
     methods: ["GET", "POST"],
   },
