@@ -20,6 +20,6 @@ router.post("/", addDoctor);
 router.post("/appointment", saveAppointment);
 router.post("/patient", savePatientDetails);
 router.patch("/:id", updateDoctor);
-router.post("/check-user", getDoctorByValue);
+router.post("/checkRole", getDoctorByValue);
 
 module.exports = router;

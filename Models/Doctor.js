@@ -80,6 +80,11 @@ const doctorSchema = new mongoose.Schema({
   uploadFile: {
     type: String,
   },
+  AccessRole: {
+    type: String,
+    required: true,
+    enum: ["Doctor", "Partner"],
+  },
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);
