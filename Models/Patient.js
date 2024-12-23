@@ -77,7 +77,8 @@ const patientSchema = new mongoose.Schema({
       "Yoga Instructors",
       "Pharmacy",
       "Diagnostic Centres",
-      "PRO",
+      "Associate",
+      "RMP",
     ],
     // List of specialization options
   },

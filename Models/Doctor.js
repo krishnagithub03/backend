@@ -39,7 +39,8 @@ const doctorSchema = new mongoose.Schema({
       "Yoga Instructors",
       "Pharmacy",
       "Diagnostic Centres",
-      "PRO",
+      "Associate",
+      "RMP",
     ],
   },
   exp: {
@@ -68,6 +69,7 @@ const doctorSchema = new mongoose.Schema({
   },
   fees: {
     type: Number,
+    default: 169,
     required: true,
   },
   message: {
