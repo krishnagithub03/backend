@@ -69,7 +69,6 @@ const doctorSchema = new mongoose.Schema({
   },
   fees: {
     type: Number,
-    default: 169,
     required: true,
   },
   message: {
