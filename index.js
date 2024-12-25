@@ -12,8 +12,8 @@ const { Server } = require("socket.io");
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
+      // "http://localhost:3000",
+      // "http://localhost:3001",
       "https://mgood.org",
       "https://www.mgood.org",
       "https://admin.mgood.org",

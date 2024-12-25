@@ -13,6 +13,16 @@ const getAllDoctors = async (req, res) => {
   }
 };
 
+const getMgoodIdByEmail = async (req, res) => {
+  const { email } = req.body;
+  const doctor = await doctorModel.findOne({ email });
+  if (doctor) {
+    res.status(200).json({ mgoodId: doctor.mgoodId });
+  } else {
+    res.status(404).json({ mgoodId: null });
+  }
+};
+
 const getDoctorById = async (req, res) => {
   const { id } = req.params;
   console.log(id);
@@ -34,10 +44,11 @@ const getDoctorsByLocation = async (req, res) => {
 };
 
 const getDoctorsBySpecialization = async (req, res) => {
-  console.log(req.params.specialization);
+  const specialization = decodeURIComponent(req.params.specialization);
+  console.log(specialization);
   try {
     const doctors = await doctorModel.find({
-      specialization: req.params.specialization,
+      specialization: specialization,
     });
     res.status(200).json(doctors);
   } catch (err) {
@@ -110,4 +121,5 @@ module.exports = {
   saveAppointment,
   savePatientDetails,
   getDoctorByValue,
+  getMgoodIdByEmail,
 };

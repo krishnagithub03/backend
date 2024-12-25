@@ -76,15 +76,17 @@ const doctorSchema = new mongoose.Schema({
   },
   sessionTimings: {
     type: String,
-    required: true,
   },
   uploadFile: {
     type: String,
   },
-  AccessRole: {
+  accessRole: {
     type: String,
     required: true,
     enum: ["Doctor", "Partner"],
+  },
+  mgoodId: {
+    type: String,
   },
 });
 
