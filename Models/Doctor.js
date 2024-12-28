@@ -88,6 +88,10 @@ const doctorSchema = new mongoose.Schema({
   mgoodId: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);
