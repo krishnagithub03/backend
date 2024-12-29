@@ -79,6 +79,7 @@ const doctorSchema = new mongoose.Schema({
   },
   uploadFile: {
     type: String,
+    required: true,
   },
   accessRole: {
     type: String,
@@ -91,6 +92,10 @@ const doctorSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  isBoarded: {
+    type: Boolean,
+    default: false,
   },
 });
 
