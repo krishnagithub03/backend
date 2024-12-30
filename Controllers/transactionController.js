@@ -42,38 +42,54 @@ const razorpayVerify = async (req, res) => {
   //   });
 
   try {
+    // Trim and ensure consistent encoding for input values
+    const trimmedOrderId = razorpay_order_id.trim();
+    const trimmedPaymentId = razorpay_payment_id.trim();
+    const trimmedSignature = razorpay_signature.trim();
+
     // Create Sign
-    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const sign = `${trimmedOrderId}|${trimmedPaymentId}`;
 
     // Create ExpectedSign
     const expectedSign = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(sign.toString())
+      .update(sign)
       .digest("hex");
 
-    console.log(razorpay_signature === expectedSign);
+    console.log("Order ID:", trimmedOrderId);
+    console.log("Payment ID:", trimmedPaymentId);
+    console.log("Signature:", trimmedSignature);
+    console.log("Expected Sign:", expectedSign);
+    console.log("Signature Match:", expectedSign === trimmedSignature);
 
     // Create isAuthentic
-    const isAuthentic = expectedSign === razorpay_signature;
+    const isAuthentic = expectedSign === trimmedSignature;
 
     // Condition
     if (isAuthentic) {
       const payment = new paymentModel({
-        razorpay_order_id,
-        razorpay_payment_id,
-        razorpay_signature,
+        razorpay_order_id: trimmedOrderId,
+        razorpay_payment_id: trimmedPaymentId,
+        razorpay_signature: trimmedSignature,
       });
 
       // Save Payment
       await payment.save();
 
-      res.json({
-        message: "Payement Successfully",
+      // Send Message
+      res.status(200).json({
+        success: true,
+        message: "Payment verified successfully",
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Payment verification failed",
       });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error!" });
-    console.log(error);
+    console.error("Error during payment verification:", error);
   }
 };
 const reachPaymentTest = async (req, res) => {
