@@ -67,15 +67,8 @@ const razorpayVerify = async (req, res) => {
       // Save Payment
       await payment.save();
 
-      // Send Message
-      res.status(200).json({
-        success: true,
-        message: "Payment verified successfully",
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Payment verification failed",
+      res.json({
+        message: "Payement Successfully",
       });
     }
   } catch (error) {
