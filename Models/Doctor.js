@@ -79,7 +79,7 @@ const doctorSchema = new mongoose.Schema({
   },
   uploadFile: {
     type: String,
-    required: true,
+    // required: true,
   },
   accessRole: {
     type: String,
