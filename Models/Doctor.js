@@ -89,6 +89,12 @@ const doctorSchema = new mongoose.Schema({
   mgoodId: {
     type: String,
   },
+  pincode: {
+    type: String,
+  },
+  refBy: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
