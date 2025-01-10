@@ -103,8 +103,35 @@ const reachPaymentTest = async (req, res) => {
   }
 };
 
+const updateDetails = async (req, res) => {
+  const { razorpay_payment_id } = req.params;
+
+  if (!razorpay_payment_id) {
+    return res.status(400).send("ID is required.");
+  }
+
+  try {
+    const { name, mgoodId } = req.body;
+    // Fixing the issue by combining the update fields into a single object
+    const updatePay = await paymentModel.findOneAndUpdate(
+      { razorpay_payment_id },
+      { paidBy: name, mgoodId: mgoodId }, // Combined fields into one object
+      { new: true } // Return the updated document
+    );
+
+    if (!updatePay) {
+      return res.status(404).send("No Record");
+    }
+    res.status(200).json(updatePay);
+  } catch (error) {
+    console.error("Error updating Payment:", error);
+    res.status(500).send("An error occurred while updating the Payment.");
+  }
+};
+
 module.exports = {
   razorpayOrder,
   razorpayVerify,
   reachPaymentTest,
+  updateDetails,
 };

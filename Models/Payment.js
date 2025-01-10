@@ -17,6 +17,12 @@ const PaymentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  paidBy: {
+    type: String,
+  },
+  mgoodId: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("payment", PaymentSchema);

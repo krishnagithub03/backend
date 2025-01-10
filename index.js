@@ -8,6 +8,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const adminRoutes = require("./Routes/admin.js");
 const { Server } = require("socket.io");
+const axios = require("axios");
 
 // app.use(
 //   cors({
@@ -31,6 +32,30 @@ app.use(express.json());
 app.use("/api", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payment", paymentRoutes);
+
+app.post("/third-party/create-appointment", async (req, res) => {
+  try {
+    const response = await axios.post(
+      "https://cusipco.in/api/B2B/create-appointment",
+      req.body,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "API-Secret-Key": process.env.NEXT_PUBLIC_CUSIPCO_API_SECRET_KEY,
+          "API-Secret-Token": process.env.NEXT_PUBLIC_CUSIPCO_API_SECRET_TOKEN,
+          "API-Environment": process.env.NEXT_PUBLIC_CUSIPCO_ENVIRONMENT,
+          "Accept-Language": "en",
+        },
+      }
+    );
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error("Error in proxy:", error.message);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch data from third-party API." });
+  }
+});
 
 mongoose
   .connect(process.env.MONGO_URI)
