@@ -57,6 +57,40 @@ app.post("/third-party/create-appointment", async (req, res) => {
   }
 });
 
+const apiCredentials = {
+  apiId: process.env.NEXT_PUBLIC_WEBHOOK_API_ID,
+  apiSecret: process.env.NEXT_PUBLIC_WEBHOOK_API_SECRET,
+};
+
+// Webhook endpoint
+app.post("/webhook/tc-update", (req, res) => {
+  const receivedApiId = req.headers["mgood-api-id"];
+  const receivedApiSecret = req.headers["mgood-api-secret"];
+
+  // Check for missing credentials
+  if (!receivedApiId || !receivedApiSecret) {
+    return res.status(401).send({ message: "Missing API ID or Secret" });
+  }
+
+  // Validate credentials
+  if (
+    receivedApiId !== apiCredentials.apiId ||
+    receivedApiSecret !== apiCredentials.apiSecret
+  ) {
+    return res.status(403).send({ message: "Invalid API credentials" });
+  }
+
+  // Extract and log payload
+  const { triggered_action, name, custom_order_id } = req.body;
+  console.log("Webhook Received:", req.body);
+
+  // Emit the triggered action to connected clients
+  io.emit("update", { triggered_action, name, custom_order_id });
+
+  // Respond to the sender
+  res.status(200).send({ message: "Webhook processed successfully" });
+});
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -70,7 +104,7 @@ const io = new Server({
   cors: {
     origin: [
       // "http://localhost:3000",
-      // "http://localhost:3001",
+      "http://localhost:3001",
       // "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",
