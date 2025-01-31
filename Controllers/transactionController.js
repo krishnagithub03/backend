@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const paymentModel = require("../Models/Payment.js");
+const qrPaymentModel = require("../Models/QrPayment.js");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const dotenv = require("dotenv");
@@ -129,9 +130,39 @@ const updateDetails = async (req, res) => {
   }
 };
 
+const saveQrPaymentDetials = async (req, res) => {
+  console.log(req.body);
+  const { mgoodId, phoneNumber, transactionId } = req.body;
+
+  // Check if all required fields are present
+  if (!mgoodId || !phoneNumber || !transactionId) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const qrPayment = new qrPaymentModel({
+    mgoodId: mgoodId,
+    phoneNumber: phoneNumber,
+    transactionId: transactionId,
+  });
+
+  try {
+    // Save the payment details to the database
+    const result = await qrPayment.save();
+    return res
+      .status(200)
+      .json({ message: "Payment details saved successfully" });
+  } catch (err) {
+    // Handle any errors that occur during the save
+    console.error("Error during saving payment details:", err);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+};
+
+
 module.exports = {
   razorpayOrder,
   razorpayVerify,
   reachPaymentTest,
   updateDetails,
+  saveQrPaymentDetials,
 };

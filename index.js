@@ -63,7 +63,8 @@ const apiCredentials = {
 };
 
 // Webhook endpoint
-app.post("/webhook/tc-update", (req, res) => {
+app.post("https://api.mgood.org/webhook/tc-update", (req, res) => {
+// app.post("/webhook/tc-update", (req, res) => {
   const receivedApiId = req.headers["mgood-api-id"];
   const receivedApiSecret = req.headers["mgood-api-secret"];
 
@@ -104,7 +105,7 @@ const io = new Server({
   cors: {
     origin: [
       // "http://localhost:3000",
-      "http://localhost:3001",
+      // "http://localhost:3001",
       // "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",
