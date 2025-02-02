@@ -65,8 +65,8 @@ const apiCredentials = {
 };
 
 // Webhook endpoint
-app.post("https://api.mgood.org/webhook/tc-update", (req, res) => {
-// app.post("/webhook/tc-update", (req, res) => {
+// app.post("https://api.mgood.org/webhook/tc-update", (req, res) => {
+app.post("/webhook/tc-update", (req, res) => {
   const receivedApiId = req.headers["mgood-api-id"];
   const receivedApiSecret = req.headers["mgood-api-secret"];
 
