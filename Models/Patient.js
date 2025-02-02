@@ -93,7 +93,6 @@ const patientSchema = new mongoose.Schema({
   mgoodId: {
     type: String,
     required: true,
-    enum: ["ID001", "ID002", "ID003", "ID004"], // Example IDs, replace with real options
   },
 });
 
