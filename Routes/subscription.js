@@ -1,7 +1,7 @@
 // Routes/subscription.js
 const express = require('express');
 const router = express.Router();
-const Subscription = require('./subscription');
+const Subscription = require('../models/Subscription');
 
 // Create new subscription
 router.post('/create', async (req, res) => {
