@@ -131,6 +131,11 @@ io.on("connection", (socket) => {
     // Notify all connected clients
     io.emit("notify-admin", data);
   });
+
+  socket.on("update-appointment-status", (data) => {
+    // Broadcast the updated status to all clients
+    io.emit("appointment-status-updated", data);
+  });
 });
 
 const server = app.listen(process.env.PORT, (req, res) => {
