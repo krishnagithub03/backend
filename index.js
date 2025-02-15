@@ -10,6 +10,7 @@ const adminRoutes = require("./Routes/admin.js");
 const { Server } = require("socket.io");
 const axios = require("axios");
 const prescriptionRoutes = require("./Routes/prescription.js");
+const planUserRoutes = require("./Routes/planUsers.js");
 
 // app.use(
 //   cors({
@@ -34,6 +35,8 @@ app.use("/api", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/prescription", prescriptionRoutes);
+app.use("/planUsers", planUserRoutes);
+
 
 app.post("/third-party/create-appointment", async (req, res) => {
   try {
@@ -106,8 +109,8 @@ mongoose
 const io = new Server({
   cors: {
     origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
+      // "http://localhost:3000",
+      // "http://localhost:3001",
       // "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",
