@@ -142,6 +142,27 @@ const updateIsBoarded = async (req, res) => {
   }
 };
 
+const getAccessRole = async (req, res) => {
+  try {
+    const { phoneNumber } = req.body;
+
+    if (!phoneNumber) {
+      return res.status(400).json({ message: "Phone number is required" });
+    }
+
+    const doctor = await doctorModel.findOne({ clinicNumber: phoneNumber, isBoarded: true });
+
+    if (!doctor) {
+      return res.status(404).json({ role: null, message: "Doctor not found" });
+    }
+
+    res.status(200).json({ role: doctor.accessRole, name : doctor.name });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   getAllDoctors,
   getDoctorsByLocation,
@@ -154,4 +175,5 @@ module.exports = {
   getDoctorByValue,
   getMgoodIdByEmail,
   updateIsBoarded,
+  getAccessRole,
 };

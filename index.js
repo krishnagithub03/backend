@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const doctorRoutes = require("./Routes/doctors.js");
 const paymentRoutes = require("./Routes/payment.js");
 const app = express();
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const adminRoutes = require("./Routes/admin.js");
@@ -11,6 +12,9 @@ const { Server } = require("socket.io");
 const axios = require("axios");
 const prescriptionRoutes = require("./Routes/prescription.js");
 const planUserRoutes = require("./Routes/planUsers.js");
+const authRoutes = require("./Routes/authRoutes.js");
+const cookieParser = require("cookie-parser");
+const patientRoutes = require("./Routes/patients.js");
 
 // app.use(
 //   cors({
@@ -29,13 +33,17 @@ app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 //Routing
 app.use("/api", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/prescription", prescriptionRoutes);
-app.use("/planUsers", planUserRoutes);
+app.use("/planUsers",planUserRoutes);
+app.use("/auth", authRoutes);
+app.use("/cnt", patientRoutes);
+
 
 
 app.post("/third-party/create-appointment", async (req, res) => {
@@ -111,7 +119,6 @@ const io = new Server({
     origin: [
       // "http://localhost:3000",
       // "http://localhost:3001",
-      // "https://mgood.vercel.app",
       "https://mgood.org",
       "https://www.mgood.org",
       "https://admin.mgood.org",
@@ -135,7 +142,14 @@ io.on("connection", (socket) => {
     io.emit("notify-admin", data);
   });
 
-  socket.on("update-appointment-status", (data) => {
+  socket.on("update", (data) => {
+    console.log("Update received:", data);
+    // Broadcast the update to all clients
+    io.emit("update", data);
+  });
+
+  socket.on("appointment-status-updated", (data) => {
+    console.log("Status update received:", data);
     // Broadcast the updated status to all clients
     io.emit("appointment-status-updated", data);
   });

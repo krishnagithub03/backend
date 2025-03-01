@@ -12,6 +12,7 @@ const {
   getDoctorByValue,
   getMgoodIdByEmail,
   updateIsBoarded,
+  getAccessRole,
 } = require("../Controllers/doctorController.js");
 
 router.get("/", getAllDoctors);
@@ -25,5 +26,6 @@ router.patch("/:id", updateDoctor);
 router.post("/checkRole", getDoctorByValue);
 router.post("/getMgoodId", getMgoodIdByEmail);
 router.patch("/updateIsBoarded/:mgoodId", updateIsBoarded);
+router.post("/getAccessRole", getAccessRole);
 
 module.exports = router;
