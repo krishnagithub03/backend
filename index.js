@@ -46,7 +46,7 @@ app.use("/planUsers",planUserRoutes);
 app.use("/auth", authRoutes);
 app.use("/cnt", patientRoutes);
 app.use("/mhl",MHLRoute);
-app.use("/reward",rewardRoutes);
+app.use("/rewards",rewardRoutes);
 
 
 app.post("/third-party/create-appointment", async (req, res) => {
