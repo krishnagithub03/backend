@@ -74,18 +74,26 @@ exports.verifyOTP = async (req, res) => {
 
     // Delete OTP after successful verification
     await OTP.deleteOne({ _id: otpRecord._id });
-    
+
     // Generate JWT Token
     const token = jwt.sign({ phoneNumber }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     // Store user identity and token in the database
-    await User.findOneAndUpdate(
-      { phoneNumber },
-      { name : "Mgood User"},
-      { phoneNumber, accessToken: token },
+    
+    const user = await User.findOneAndUpdate(
+      { phoneNumber }, 
+      {
+        $set: { accessToken: token }, 
+        $setOnInsert: {
+          name: "Mgood User", 
+          phoneNumber,
+        },
+      },
       { upsert: true, new: true }
     );
+
+    console.log("Created or updated:", user);
 
     res.json({ success: true, message: "OTP verified", token, phoneNumber });
   } catch (error) {
