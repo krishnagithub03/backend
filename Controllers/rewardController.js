@@ -1,4 +1,4 @@
-const Reward = require("../models/Reward");
+const Reward = require("../Models/Reward");
 
 const getRewardPoints = async (req, res) => {
   try {
