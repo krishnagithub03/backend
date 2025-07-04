@@ -7,7 +7,7 @@ const sendSMS = async (phoneNumber, otp) => {
         phoneNumber
       )}&route=TA&msgtype=1&sms=Dear User, ${encodeURIComponent(
         otp
-      )} is the OTP to verify your mobile number with MGood. Please do not share this OTP with anyone. This OTP is valid for 2 minutes.`
+      )} is the OTP to verify your mobile number with MGood. Please do not share this OTP with anyone. This OTP is valid for 2 minutes.`
     );
 
     return {

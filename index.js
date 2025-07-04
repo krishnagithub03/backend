@@ -16,6 +16,7 @@ const authRoutes = require("./Routes/authRoutes.js");
 const cookieParser = require("cookie-parser");
 const patientRoutes = require("./Routes/patients.js");
 const MHLRoute=require("./Routes/MHL.js");
+const rewardRoutes = require("./Routes/reward.js");
 
 // app.use(
 //   cors({
@@ -45,6 +46,7 @@ app.use("/planUsers",planUserRoutes);
 app.use("/auth", authRoutes);
 app.use("/cnt", patientRoutes);
 app.use("/mhl",MHLRoute);
+app.use("/reward",rewardRoutes);
 
 
 app.post("/third-party/create-appointment", async (req, res) => {
