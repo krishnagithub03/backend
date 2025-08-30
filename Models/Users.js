@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
+    userId: { type: String, unique: true, sparse: true }, // Add userId field to match database index
     phoneNumber: { type: String, required: true, unique: true },
     accessToken: { type: String },
     name: { type: String }, // Optional: User's name

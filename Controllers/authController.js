@@ -1,6 +1,12 @@
 const OTP = require("../Models/OTP");
 const { sendSMS } = require("../services/smsService");
 const User = require("../Models/Users");
+const crypto = require("crypto");
+
+// Function to generate UID with 8-digit unique number
+const generateUserId = () => {
+  return `MUID:${crypto.randomInt(10000000, 99999999)}`;
+};
 
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -80,23 +86,43 @@ exports.verifyOTP = async (req, res) => {
       expiresIn: "7d",
     });
     // Store user identity and token in the database
+    let user;
+    let retryCount = 0;
+    const maxRetries = 3;
     
-    const user = await User.findOneAndUpdate(
-      { phoneNumber }, 
-      {
-        $set: { accessToken: token }, 
-        $setOnInsert: {
-          name: "Mgood User", 
-          phoneNumber,
-        },
-      },
-      { upsert: true, new: true }
-    );
+    while (retryCount < maxRetries) {
+      try {
+        user = await User.findOneAndUpdate(
+          { phoneNumber }, 
+          {
+            $set: { accessToken: token }, 
+            $setOnInsert: {
+              userId: generateUserId(), // Generate unique userId for new users
+              name: "Mgood User", 
+              phoneNumber,
+            },
+          },
+          { upsert: true, new: true }
+        );
+        break; // Success, exit the retry loop
+      } catch (error) {
+        if (error.code === 11000 && error.keyPattern && error.keyPattern.userId) {
+          // Duplicate userId, retry with a new one
+          retryCount++;
+          if (retryCount >= maxRetries) {
+            throw new Error("Failed to generate unique userId after multiple attempts");
+          }
+          continue;
+        }
+        throw error; // Re-throw other errors
+      }
+    }
 
     console.log("Created or updated:", user);
 
     res.json({ success: true, message: "OTP verified", token, phoneNumber });
   } catch (error) {
+    console.error("VERIFY OTP FAILED:", error); 
     res.status(500).json({ success: false, message: "Failed to verify OTP" });
   }
 };
