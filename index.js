@@ -18,6 +18,7 @@ const patientRoutes = require("./Routes/patients.js");
 const MHLRoute=require("./Routes/MHL.js");
 const rewardRoutes = require("./Routes/reward.js");
 const googleSheetsRoutes = require("./Routes/googleSheetsRoutes.js");
+const {sendAccessEmail} = require("./services/email.js")
 
 // app.use(
 //   cors({
@@ -108,6 +109,21 @@ app.post("/webhook/tc-update", (req, res) => {
 
   // Respond to the sender
   res.status(200).send({ message: "Webhook processed successfully" });
+});
+
+app.get("/send-email", async (req, res) => {
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  const userAgent = req.headers["user-agent"];
+  const referrer = req.headers["referer"];
+
+  try {
+    await sendAccessEmail(ip, userAgent, referrer);
+    console.log("Access email sent.");
+  } catch (err) {
+    console.error("Email sending failed:", err);
+  }
+
+  res.send("Website accessed successfully!");
 });
 
 mongoose
