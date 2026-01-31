@@ -1,7 +1,7 @@
 module.exports = [
     {
       id: "eye_contact",
-      question: "Does the child maintain eye contact while speaking?",
+      question: "Does the child not maintain eye contact while speaking?",
       triggers: {
         Yes: ["A"],
         Sometimes: ["A"],
@@ -10,7 +10,7 @@ module.exports = [
     },
     {
       id: "responds_name",
-      question: "Does the child respond to their name?",
+      question: "Does the child not respond to their name?",
       triggers: {
         Yes: ["A"],
         Sometimes: ["A"],
