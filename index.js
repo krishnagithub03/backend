@@ -19,6 +19,7 @@ const MHLRoute=require("./Routes/MHL.js");
 const rewardRoutes = require("./Routes/reward.js");
 const googleSheetsRoutes = require("./Routes/googleSheetsRoutes.js");
 const quizRoutes = require("./Routes/quizRoutes.js");
+const eventResultRoutes = require("./Routes/eventResult.js");
 
 // app.use(
 //   cors({
@@ -51,6 +52,7 @@ app.use("/mhl",MHLRoute);
 app.use("/rewards",rewardRoutes);
 app.use("/sheets", googleSheetsRoutes);
 app.use("/quiz", quizRoutes);
+app.use("/event-results", eventResultRoutes);
 
 
 app.post("/third-party/create-appointment", async (req, res) => {
