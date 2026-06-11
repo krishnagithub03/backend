@@ -1,5 +1,5 @@
-const rules = require("../rules");
-const categoryMessages = require("../categoryMessages");
+const rules = require("../utils/rules");
+const categoryMessages = require("../utils/categoryMessages");
 const calculateLevel = require("../utils/levelCalculator");
 
 exports.evaluateQuiz = (req, res) => {
