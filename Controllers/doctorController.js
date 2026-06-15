@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const doctorModel = require("../Models/Doctor.js");
 const appointmentModel = require("../Models/Appointments.js");
 const patientModel = require("../Models/Patient.js");
+const userModel = require("../Models/Users.js");
 
 const getAllDoctors = async (req, res) => {
   try {
@@ -150,13 +151,13 @@ const getAccessRole = async (req, res) => {
       return res.status(400).json({ message: "Phone number is required" });
     }
 
-    const doctor = await doctorModel.findOne({ clinicNumber: phoneNumber, isBoarded: true });
+    const user = await userModel.findOne({ phoneNumber });
 
-    if (!doctor) {
-      return res.status(404).json({ role: null, message: "Doctor not found" });
+    if (!user) {
+      return res.status(404).json({ role: null, message: "User not found" });
     }
 
-    res.status(200).json({ role: doctor.accessRole, name : doctor.name });
+    res.status(200).json({ role: user.role, name: user.name });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
