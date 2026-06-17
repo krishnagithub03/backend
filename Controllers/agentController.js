@@ -24,11 +24,6 @@ const getUniqueSlug = async (baseSlug) => {
   return slug;
 };
 
-/**
- * @desc    Create a new insurance agent
- * @route   POST /agents
- * @access  Private (Admin only)
- */
 const createAgent = async (req, res) => {
   try {
     const {
@@ -108,4 +103,48 @@ const createAgent = async (req, res) => {
   }
 };
 
-module.exports = { createAgent };
+const getAllAgents = async (req, res) => {
+  try {
+    const agents = await InsuranceAgent.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: agents.length,
+      data: agents,
+    });
+  } catch (error) {
+    console.error("Error fetching agents:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching agents.",
+    });
+  }
+};
+
+const getAgentBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const agent = await InsuranceAgent.findOne({ slug });
+
+    if (!agent) {
+      return res.status(404).json({
+        success: false,
+        message: "Agent not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: agent,
+    });
+  } catch (error) {
+    console.error("Error fetching agent by slug:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching agent.",
+    });
+  }
+};
+
+module.exports = { createAgent, getAllAgents, getAgentBySlug };
