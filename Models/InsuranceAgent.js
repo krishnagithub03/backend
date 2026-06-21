@@ -88,6 +88,16 @@ const insuranceAgentSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    city: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    pincode: {
+      type: String,
+      default: null,
+      trim: true,
+    },
 
     // Verification badges
     verificationBadges: {
