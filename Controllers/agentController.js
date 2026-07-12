@@ -27,7 +27,6 @@ const getUniqueSlug = async (baseSlug) => {
 const createAgent = async (req, res) => {
   try {
     const {
-      agentId,
       fullName,
       profileImageUrl,
       bio,
@@ -42,21 +41,10 @@ const createAgent = async (req, res) => {
       media,
     } = req.body;
 
-    // Check if agent with the same agentId already exists
-    const existingAgent = await InsuranceAgent.findOne({ agentId });
-
-    if (existingAgent) {
-      return res.status(409).json({
-        success: false,
-        message: "An agent with this agentId already exists.",
-      });
-    }
-
     // Auto-generate a unique slug from the fullName
     const slug = await getUniqueSlug(generateSlug(fullName));
 
     const newAgent = new InsuranceAgent({
-      agentId,
       fullName,
       slug,
       profileImageUrl,

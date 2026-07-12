@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 
 // --- Enum definitions ---
 const INSURANCE_TYPES = [
@@ -64,7 +65,7 @@ const socialLinksSchema = new mongoose.Schema(
 const insuranceAgentSchema = new mongoose.Schema(
   {
     agentId: {
-      type: Number,
+      type: String,
       unique: true,
       required: [true, "Agent ID is required"],
     },
@@ -160,6 +161,33 @@ const insuranceAgentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Pre-validate hook to generate agentId
+insuranceAgentSchema.pre("validate", async function (next) {
+  if (!this.agentId) {
+    let isUnique = false;
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    while (!isUnique && attempts < maxAttempts) {
+      const randomDigits = crypto.randomInt(10000000, 99999999);
+      const generatedId = `MgoodAgent${randomDigits}`;
+      
+      // Query the database to check if this agentId already exists
+      const existing = await this.constructor.findOne({ agentId: generatedId });
+      if (!existing) {
+        this.agentId = generatedId;
+        isUnique = true;
+      }
+      attempts++;
+    }
+
+    if (!isUnique) {
+      return next(new Error("Failed to generate a unique agent ID after multiple attempts."));
+    }
+  }
+  next();
+});
 
 // Index for fast lookups
 insuranceAgentSchema.index({ slug: 1 });
