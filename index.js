@@ -21,6 +21,7 @@ const googleSheetsRoutes = require("./Routes/googleSheetsRoutes.js");
 const quizRoutes = require("./Routes/quizRoutes.js");
 const eventResultRoutes = require("./Routes/eventResult.js");
 const agentRoutes = require("./Routes/agents.js");
+const diwaliRoutes = require("./Routes/diwaliRoutes.js");
 
 // app.use(
 //   cors({
@@ -55,6 +56,8 @@ app.use("/sheets", googleSheetsRoutes);
 app.use("/quiz", quizRoutes);
 app.use("/event-results", eventResultRoutes);
 app.use("/agents", agentRoutes);
+app.use("/diwali", diwaliRoutes);
+app.use("/api/diwali", diwaliRoutes);
 
 
 app.post("/third-party/create-appointment", async (req, res) => {
